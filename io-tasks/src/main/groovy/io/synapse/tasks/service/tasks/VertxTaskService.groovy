@@ -8,7 +8,6 @@ import io.synapse.tasks.util.MapperUtil
 import io.synapse.tasks.util.TaskConventionUtil
 import io.synapse.tasks.valueobjects.Event
 import io.synapse.tasks.valueobjects.TaskParam
-import io.vertx.kafka.client.consumer.KafkaConsumer
 import io.vertx.kafka.client.producer.KafkaProducerRecord
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
