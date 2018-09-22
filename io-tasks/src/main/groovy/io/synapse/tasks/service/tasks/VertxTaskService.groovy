@@ -49,11 +49,13 @@ class VertxTaskService implements TaskService {
 
         kafkaConfig.kafkaConsumer().subscribe(topic, { handler ->
             if (handler.succeeded()) {
-                log.info("subscription to topic: $topic successful")
+                log.info("subscription to topic: ${topic?.toLowerCase()}, successful")
 
                 kafkaConfig.kafkaConsumer().handler({ record ->
+                    log.info("processing event : ${record?.value()} @ ${topic?.toLowerCase()}")
+
                     Event event = MapperUtil.mapper.readValue(record.value(), Event)
-                    EventState state = timedAction(event)
+                    EventState state = timedAction(event, processorHandler)
                     def responseTopic = TaskConventionUtil.getResponseTopicDescription(topic)
                     kafkaConfig.kafkaProducer().write(KafkaProducerRecord.create(responseTopic, UUID.randomUUID().toString(), state.toString()))
                 })
@@ -63,11 +65,8 @@ class VertxTaskService implements TaskService {
         })
     }
 
-    private EventState timedAction(Event event) {
-        kafkaConfig.vertx.setTimer(5000, {
-            timedHandler ->
-        })
-        processorHandler.handle(event.message)
+    EventState timedAction(Event event, TaskProcessorHandler handler) {
+        handler.handle(event.message)
     }
 
     void processTask(Event event) {
@@ -82,26 +81,25 @@ class VertxTaskService implements TaskService {
             def responseTopic = TaskConventionUtil.getResponseTopicDescription(event.getTopic())
             kafkaConfig.kafkaResponseConsumer().subscribe(responseTopic, { handler ->
                 if (handler.succeeded()) {
-                    log.info("subscription to topic: $responseTopic successful")
+                    log.info("subscription to topic: ${responseTopic?.toLowerCase()}, successful")
                     kafkaConfig.kafkaResponseConsumer().handler({ record ->
+                        log.info("received task response: ${record.value()} on topic: $responseTopic")
                         def responseBody = record.value()
                         def state = EventState.valueOf(responseBody)
-
-                        log.info("trigger detected: $state")
                         processCompletionHandler.handle(state)
+                    })
+
+                    //trigger task forwarder
+                    def record = KafkaProducerRecord.create(event.getTopic(), UUID.randomUUID().toString(), payload)
+                    kafkaConfig.kafkaProducer().write(record, { fHandler ->
+                        if (fHandler.succeeded()) {
+                            log.info("sent task ${event.message} to topic: $event.topic")
+                        } else {
+                            log.info("failed to forwarded to topic: $event.topic with ${fHandler.cause().getMessage()}")
+                        }
                     })
                 } else {
                     log.info("failed to subscribe to topic: $event.topic with ${handler.cause().getMessage()}")
-                }
-            })
-
-            //forward task
-            def record = KafkaProducerRecord.create(event.getTopic(), UUID.randomUUID().toString(), payload)
-            kafkaConfig.kafkaProducer().write(record, { handler ->
-                if (handler.succeeded()) {
-                    log.info("successfully forwarded ${event.message} to topic: $event.topic")
-                } else {
-                    log.info("failed to forwarded to topic: $event.topic with ${handler.cause().getMessage()}")
                 }
             })
         } catch (Exception e) {
