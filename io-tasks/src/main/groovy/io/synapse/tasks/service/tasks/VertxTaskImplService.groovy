@@ -12,18 +12,18 @@ import io.vertx.kafka.client.producer.KafkaProducerRecord
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class VertxTaskService implements TaskService {
+class VertxTaskImplService implements TaskService {
 
-    private final Logger log = LoggerFactory.getLogger(VertxTaskService)
+    private final Logger log = LoggerFactory.getLogger(VertxTaskImplService)
 
     String name
     Map<TaskParam, String> configuration
     KafkaConfig kafkaConfig
     TaskCompletionHandler processCompletionHandler
 
-    VertxTaskService(Map<TaskParam, String> configuration) {
+    VertxTaskImplService(Map<TaskParam, String> configuration) {
         this.configuration = configuration
-        log.info("starting ${VertxTaskService.getCanonicalName()}")
+        log.info("starting ${VertxTaskImplService.getCanonicalName()}")
     }
 
     def buildKafkaConfig() {
@@ -48,7 +48,7 @@ class VertxTaskService implements TaskService {
 
         kafkaConfig.kafkaConsumer().subscribe(topic, { handler ->
             if (handler.succeeded()) {
-                log.info("subscription to topic: ${topic?.toLowerCase()}, successful")
+                log.info("subscription to [process-task-override] topic: ${topic?.toLowerCase()}, successful")
 
                 kafkaConfig.kafkaConsumer().handler({ record ->
                     log.info("processing event : ${record?.value()} @ ${topic?.toLowerCase()}")
@@ -80,7 +80,7 @@ class VertxTaskService implements TaskService {
             def responseTopic = TaskConventionUtil.getResponseTopicDescription(event.getTopic())
             kafkaConfig.kafkaResponseConsumer().subscribe(responseTopic, { handler ->
                 if (handler.succeeded()) {
-                    log.info("subscription to topic: ${responseTopic?.toLowerCase()}, successful")
+                    log.info("subscription to [process-task-action] topic: ${responseTopic?.toLowerCase()}, successful")
                     kafkaConfig.kafkaResponseConsumer().handler({ record ->
                         log.info("received task response: ${record.value()} on topic: $responseTopic")
                         def responseBody = record.value()
@@ -94,11 +94,11 @@ class VertxTaskService implements TaskService {
                         if (fHandler.succeeded()) {
                             log.info("sent task ${event.message} to topic: $event.topic")
                         } else {
-                            log.info("failed to forwarded to topic: $event.topic with ${fHandler.cause().getMessage()}")
+                            log.info("failed to forward to topic: $event.topic with ${fHandler.cause().getMessage()}")
                         }
                     })
                 } else {
-                    log.info("failed to subscribe to topic: $event.topic with ${handler.cause().getMessage()}")
+                    log.info("failed to subscribe to topic: $event.topic, reason: ${handler.cause().getMessage()}")
                 }
             })
         } catch (Exception e) {

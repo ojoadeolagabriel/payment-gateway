@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="io.synapse.tasks.service.tasks.VertxTaskService" level="debug"
+    <logger name="io.synapse.tasks.service.tasks.VertxTaskImplService" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
