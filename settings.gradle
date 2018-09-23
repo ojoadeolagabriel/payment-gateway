@@ -4,4 +4,5 @@ include 'io-webapi'
 include 'io-tasks'
 include 'io-security'
 include 'io-config-server'
+include 'io-api-bouncer'
 
