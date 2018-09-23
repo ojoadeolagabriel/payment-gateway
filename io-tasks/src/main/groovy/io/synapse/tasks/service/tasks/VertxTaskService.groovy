@@ -94,7 +94,8 @@ class VertxTaskService implements TaskService {
                         if (fHandler.succeeded()) {
                             log.info("sent task ${event.message} to topic: $event.topic")
                         } else {
-                            log.info("failed to forwarded to topic: $event.topic with ${fHandler.cause().getMessage()}")
+                            fHandler.cause().printStackTrace()
+                            log.info("failed to forwarded to topic: $event.topic")
                         }
                     })
                 } else {

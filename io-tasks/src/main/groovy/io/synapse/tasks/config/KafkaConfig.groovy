@@ -59,7 +59,7 @@ class KafkaConfig {
             config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
             config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
             config.put("acks", "1")
-            producer = KafkaProducer.createShared(getVertx(), "shared-kafka-producer-1", config)
+            producer = KafkaProducer.createShared(getVertx(), "shared-kafka-producer-" + UUID.randomUUID().toString(), config)
         }
         return producer
     }
