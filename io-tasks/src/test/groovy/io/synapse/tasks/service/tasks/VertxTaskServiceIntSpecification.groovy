@@ -7,14 +7,12 @@ import io.synapse.tasks.util.MapperUtil
 import io.synapse.tasks.valueobjects.Event
 import io.synapse.tasks.valueobjects.TaskParam
 import io.synapse.tasks.valueobjects.TaskType
-import lombok.extern.slf4j.Slf4j
 import spock.lang.See
 import spock.lang.Timeout
 import spock.lang.Title
 import spock.lang.Unroll
 import spock.util.concurrent.AsyncConditions
 
-@Slf4j
 @Title("vertx task integration test specification")
 @See("http://localhost:7691/docs/test")
 class VertxTaskServiceIntSpecification extends BaseIntSpecification {
@@ -102,11 +100,13 @@ class VertxTaskServiceIntSpecification extends BaseIntSpecification {
 
 	private static Event buildEvent() {
 		Event event = new Event()
-		event.setTopic("onTestPayload")
-		TestPayload testPayload = new TestPayload()
-		testPayload.setName("adeola.ojo")
-		testPayload.setAmount(1200)
-		event.setMessage(MapperUtil.mapper.writeValueAsString(testPayload))
+		event.with {
+			setTopic("onTestPayload")
+			TestPayload testPayload = new TestPayload()
+			testPayload.setName("adeola.ojo")
+			testPayload.setAmount(1200)
+			setMessage(MapperUtil.mapper.writeValueAsString(testPayload))
+		}
 		return event
 	}
 

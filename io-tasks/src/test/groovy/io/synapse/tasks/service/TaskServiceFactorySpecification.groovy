@@ -8,18 +8,18 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class TaskServiceFactorySpecification extends Specification {
-    def "setup"() {
+	def "setup"() {
 
-    }
+	}
 
-    @Unroll
-    @SuppressWarnings("GroovyAssignabilityCheck")
-    def "confirm taskService types"() {
-        given:
-        def config = [(TaskParam.NAME): "testApp"]
-        expect:
-        TaskServiceFactory.create(taskType, config) instanceof TaskService
-        where:
-        taskType << TaskType.values()
-    }
+	@Unroll
+	@SuppressWarnings("GroovyAssignabilityCheck")
+	def "confirm taskService types"() {
+		given:
+			def config = [(TaskParam.NAME): "testApp"]
+		expect:
+			TaskServiceFactory.create(taskType, config) instanceof TaskService
+		where:
+			taskType << TaskType.values()
+	}
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import javax.sql.DataSource
 
 @Component
-@ConfigurationProperties(prefix = "params.datasource")
+@ConfigurationProperties(prefix = "apps.datasource")
 class DatabaseConfig extends HikariConfig{
 	@Bean
 	DataSource dataSource(){

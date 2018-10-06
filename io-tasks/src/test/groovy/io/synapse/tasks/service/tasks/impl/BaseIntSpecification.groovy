@@ -12,12 +12,23 @@ import spock.lang.Specification
 class BaseIntSpecification extends Specification {
 	@Rule
 	public KafkaContainer kafka = new KafkaContainer("4.1.2")
+	static String MAGIC_NUMBER = 1
+
+
+	@ClassRule
+	public static GenericContainer alpine =
+			new GenericContainer("alpine:3.2")
+					.withExposedPorts(80)
+					.withEnv("MAGIC_NUMBER", "42")
+					.withCommand("/bin/sh", "-c",
+					"while true; do echo '$MAGIC_NUMBER' | nc -l -p 80; done")
 
 	@ClassRule
 	public static GenericContainer simpleWebServer= new GenericContainer("alpine:3.2")
 			.withExposedPorts(8080)
 			.withCommand("/bin/sh", "-c", "while true; do echo "
 			+ "\"HTTP/1.1 200 OK\n\nHello World!\" | nc -l -p 80; done")
+
 	@Rule
 	TemporaryFolder temporaryFolder = new TemporaryFolder()
 }

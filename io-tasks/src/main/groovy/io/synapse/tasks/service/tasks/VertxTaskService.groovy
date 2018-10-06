@@ -9,12 +9,14 @@ import io.synapse.tasks.util.TaskConventionUtil
 import io.synapse.tasks.valueobjects.Event
 import io.synapse.tasks.valueobjects.TaskParam
 import io.vertx.kafka.client.producer.KafkaProducerRecord
+import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@Slf4j
 class VertxTaskService implements TaskService {
 
-    private final Logger log = LoggerFactory.getLogger(VertxTaskService)
+    private final Logger logger = LoggerFactory.getLogger(VertxTaskService)
 
     String name
     Map<TaskParam, String> configuration

@@ -1,5 +1,9 @@
 package io.api.bouncer.encoder
 
+
+import io.api.bouncer.service.security.repository.UserProfileRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -7,12 +11,16 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 class BasicEncoders {
 
-	PasswordEncoder userPasswordEncoder(){
+	@Autowired
+	UserProfileRepository repository
+
+	@Bean(name = "userPasswordEncoder")
+	PasswordEncoder userPasswordEncoder() {
 		new BCryptPasswordEncoder(4)
 	}
 
-
-	PasswordEncoder oauth2ClientPasswordEncoder(){
+	@Bean(name = "oauth2ClientPasswordEncoder")
+	PasswordEncoder oauth2ClientPasswordEncoder() {
 		new BCryptPasswordEncoder(8)
 	}
 }

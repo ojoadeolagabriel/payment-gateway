@@ -1,20 +1,17 @@
 package io.api.bouncer.config
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 
@@ -22,35 +19,29 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableAuthorizationServer
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import(ServerSecurityConfig.class)
-class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter {
+class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource
-	@Autowired
-	private AuthenticationManager authenticationManager
-	@Autowired
-	private UserDetailsService userDetailsService
-	@Autowired
-	private PasswordEncoder oauthClientPasswordEncoder
 
 	@Bean
 	TokenStore tokenStore() {
 		return new JdbcTokenStore(dataSource)
 	}
 
-	@Bean
-	OAuth2AccessDeniedHandler oauthAccessDeniedHandler() {
-		return new OAuth2AccessDeniedHandler();
+	PasswordEncoder clientPasswordEncoder(){
+		new BCryptPasswordEncoder(4)
 	}
 
+	@Autowired
+	private AuthenticationManager authenticationManager
+
 	@Override
-	void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-		oauthServer
+	void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		security
 				.tokenKeyAccess("permitAll()")
 				.checkTokenAccess("isAuthenticated()")
-				.passwordEncoder(oauthClientPasswordEncoder)
+				.allowFormAuthenticationForClients()
 	}
 
 	@Override
@@ -59,7 +50,9 @@ class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter {
 	}
 
 	@Override
-	void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(userDetailsService)
+	void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		endpoints.authenticationManager(authenticationManager)
+				.tokenStore(tokenStore())
+				.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
 	}
 }
