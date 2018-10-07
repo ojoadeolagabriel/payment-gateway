@@ -36,6 +36,14 @@ class User implements UserDetails {
 	@JoinTable(name = "oauth_user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Collection<Authority> authorities
 
+	void setProperties(Collection<Authority> authorities) {
+		this.authorities = authorities
+	}
+
+	Long getId() {
+		return id
+	}
+
 	@Override
 	Collection<? extends GrantedAuthority> getAuthorities() {
 		authorities

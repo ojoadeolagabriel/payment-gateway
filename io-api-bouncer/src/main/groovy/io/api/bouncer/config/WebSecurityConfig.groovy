@@ -3,6 +3,7 @@ package io.api.bouncer.config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -10,6 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.access.AccessDeniedHandlerImpl
+
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +26,15 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers("/api/v1/**").authenticated()
+		.and()
+		.exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl(){
+			@Override
+			void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+				super.handle(request, response, accessDeniedException)
+				response.setStatus(401)
+				response.getWriter().append("Access denied")
+			}
+		})
 	}
 
 	PasswordEncoder userPasswordEncoder(){
@@ -34,6 +49,5 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
 		builder
 				.userDetailsService(userDetailsService)
-				//.passwordEncoder(userPasswordEncoder())
 	}
 }

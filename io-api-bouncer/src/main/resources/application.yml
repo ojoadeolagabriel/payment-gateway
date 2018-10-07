@@ -1,6 +1,10 @@
 server:
   port: 7005
 
+spring:
+  profiles:
+    active: authorization_server
+
 apps:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
