@@ -29,10 +29,6 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 		return new JdbcTokenStore(dataSource)
 	}
 
-	PasswordEncoder clientPasswordEncoder(){
-		new BCryptPasswordEncoder(4)
-	}
-
 	@Autowired
 	private AuthenticationManager authenticationManager
 

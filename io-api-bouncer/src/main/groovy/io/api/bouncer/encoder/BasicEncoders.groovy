@@ -1,7 +1,7 @@
 package io.api.bouncer.encoder
 
 
-import io.api.bouncer.service.security.repository.UserProfileRepository
+import io.api.bouncer.data.repository.UserProfileRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

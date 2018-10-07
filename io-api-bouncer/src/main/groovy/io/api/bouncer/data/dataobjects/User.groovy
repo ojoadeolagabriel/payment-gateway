@@ -1,4 +1,4 @@
-package io.api.bouncer.service.security.data
+package io.api.bouncer.data.dataobjects
 
 import lombok.Getter
 import lombok.Setter
@@ -33,14 +33,12 @@ class User implements UserDetails {
 	private String password
 
 	@OneToMany
-	@JoinTable(name = "oauth_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "oauth_user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Collection<Authority> authorities
 
 	@Override
 	Collection<? extends GrantedAuthority> getAuthorities() {
-		[
-				new Authority("ADMIN")
-		]
+		authorities
 	}
 
 	@Override

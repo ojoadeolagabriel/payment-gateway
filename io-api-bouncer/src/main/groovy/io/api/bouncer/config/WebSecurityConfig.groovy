@@ -32,6 +32,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
-		builder.userDetailsService(userDetailsService).passwordEncoder(userPasswordEncoder())
+		builder
+				.userDetailsService(userDetailsService)
+				//.passwordEncoder(userPasswordEncoder())
 	}
 }

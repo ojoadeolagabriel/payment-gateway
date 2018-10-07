@@ -1,4 +1,4 @@
-package io.api.bouncer.service.security.data
+package io.api.bouncer.data.dataobjects
 
 import lombok.Builder
 import org.springframework.security.core.GrantedAuthority
@@ -14,10 +14,6 @@ import javax.persistence.Table
 @Table(name = "oauth_user_roles")
 @Builder
 class Authority implements GrantedAuthority {
-
-	Authority(String role) {
-		this.role = role
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

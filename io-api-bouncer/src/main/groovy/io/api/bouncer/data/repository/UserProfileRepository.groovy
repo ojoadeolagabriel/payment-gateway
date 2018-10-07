@@ -1,6 +1,6 @@
-package io.api.bouncer.service.security.repository
+package io.api.bouncer.data.repository
 
-import io.api.bouncer.service.security.data.User
+import io.api.bouncer.data.dataobjects.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
