@@ -1,20 +1,44 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.16.RELEASE'
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
 plugins {
     id 'groovy'
-    id 'java'
 }
+
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
 
 group 'com.synapse'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
-	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.1.RELEASE'
-	compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.8.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+	compile 'org.codehaus.groovy:groovy-all:2.3.11'
+	compile('org.springframework.cloud:spring-cloud-starter-zuul')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5"
+	}
 }
