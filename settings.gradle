@@ -6,4 +6,5 @@ include 'io-security'
 include 'io-config-server'
 include 'io-api-bouncer'
 include 'io-edge-service'
+include 'io-webapp'
 

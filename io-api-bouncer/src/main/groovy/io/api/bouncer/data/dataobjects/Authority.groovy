@@ -28,6 +28,6 @@ class Authority implements GrantedAuthority {
 
 	@Override
 	String getAuthority() {
-		return role()
+		return role
 	}
 }

@@ -20,8 +20,6 @@ class CustomOauthExceptionSerializer extends StdSerializer<CustomOauthException>
 		jsonGenerator.writeStartObject()
 		jsonGenerator.writeStringField("code", e.getHttpErrorCode().toString())
 		jsonGenerator.writeStringField("message", "${e.getMessage()}")
-		jsonGenerator.writeStringField("data", "")
-		jsonGenerator.writeStringField("path", "")
 		jsonGenerator.writeStringField("errors", "${e.getOAuth2ErrorCode()} - ${e.getMessage()}")
 		includeAdditionalInfo(jsonGenerator, e)
 		jsonGenerator.writeEndObject()
