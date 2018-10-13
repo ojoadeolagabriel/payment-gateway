@@ -14,11 +14,11 @@ class TaskServiceFactory {
     static TaskService create(TaskType processorType, Map<TaskParam, String> configuration) {
         switch (processorType) {
             case TaskType.VERTX:
-                return new VertxTaskService(configuration)
+                return new VertxTaskImplService(configuration)
             case TaskType.IGNITE:
                 return new IgniteTaskService(configuration)
             default:
-                return new VertxTaskService(configuration)
+                return new VertxTaskImplService(configuration)
         }
     }
 }
