@@ -23,8 +23,8 @@ class AdminController {
 		JsonOutput.toJson(["status": "online", "request-id": id])
 	}
 
-	@PreAuthorize(BouncerRole.ADMIN)
-	@RequestMapping(method = RequestMethod.GET, value = "/user/info", produces = "application/json")
+	@PreAuthorize(BouncerRole.SUPER_ADMIN)
+	@RequestMapping(method = RequestMethod.GET, value = "/user/current", produces = "application/json")
 	String currentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
 		JsonOutput.toJson(["username": authentication.name, "principal": authentication.credentials.toString()])

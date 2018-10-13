@@ -43,8 +43,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security
 				.tokenKeyAccess("permitAll()")
-				.checkTokenAccess("isAuthenticated()")
-				.allowFormAuthenticationForClients()
+				.checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
 	}
 
 	@Override

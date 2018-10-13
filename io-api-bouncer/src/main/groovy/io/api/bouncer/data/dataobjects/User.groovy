@@ -21,6 +21,9 @@ import javax.persistence.UniqueConstraint
 @Setter
 @Table(name = "oauth_users", uniqueConstraints = @UniqueConstraint(columnNames = ["username"]))
 class User implements UserDetails {
+
+	private static final long serialVersionUID = 1L
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
