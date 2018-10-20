@@ -11,4 +11,4 @@ apps:
     jdbcUrl: jdbc:mysql://localhost:3306/app_db?useSSL=false
     username: root
     password: password
-    maximumPoolSize: 100
+    maximumPoolSize: 10

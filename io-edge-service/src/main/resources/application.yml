@@ -1,2 +1,41 @@
 server:
-  port: 7290
+  port: 7010
+
+zuul:
+  routes:
+    oauth-security:
+      path: /oauth/**
+      sensitiveHeaders:
+      serviceId: oauth
+      stripPrefix: false
+    user-endpoint:
+      path: /api/v1/**
+      sensitiveHeaders:
+      serviceId: users
+      stripPrefix: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 10000
+
+oauth:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: http://localhost:7005/,http://localhost:7006/
+    ConnectTimeout: 1000
+    ReadTimeout: 10000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+users:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: http://localhost:7007/
+    ConnectTimeout: 1000
+    ReadTimeout: 10000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100

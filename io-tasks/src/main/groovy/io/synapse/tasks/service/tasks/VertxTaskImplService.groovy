@@ -13,16 +13,9 @@ import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-<<<<<<< HEAD:io-tasks/src/main/groovy/io/synapse/tasks/service/tasks/VertxTaskService.groovy
-@Slf4j
-class VertxTaskService implements TaskService {
-
-    private final Logger logger = LoggerFactory.getLogger(VertxTaskService)
-=======
 class VertxTaskImplService implements TaskService {
 
     private final Logger log = LoggerFactory.getLogger(VertxTaskImplService)
->>>>>>> master:io-tasks/src/main/groovy/io/synapse/tasks/service/tasks/VertxTaskImplService.groovy
 
     String name
     Map<TaskParam, String> configuration
@@ -102,12 +95,7 @@ class VertxTaskImplService implements TaskService {
                         if (fHandler.succeeded()) {
                             log.info("sent task ${event.message} to topic: $event.topic")
                         } else {
-<<<<<<< HEAD:io-tasks/src/main/groovy/io/synapse/tasks/service/tasks/VertxTaskService.groovy
-                            fHandler.cause().printStackTrace()
-                            log.info("failed to forwarded to topic: $event.topic")
-=======
                             log.info("failed to forward to topic: $event.topic with ${fHandler.cause().getMessage()}")
->>>>>>> master:io-tasks/src/main/groovy/io/synapse/tasks/service/tasks/VertxTaskImplService.groovy
                         }
                     })
                 } else {
