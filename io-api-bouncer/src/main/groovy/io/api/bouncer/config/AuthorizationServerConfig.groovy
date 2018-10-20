@@ -3,7 +3,7 @@ package io.api.bouncer.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.api.bouncer.exception.CustomOauthException
 import io.api.bouncer.exception.DefaultOauthException
-import io.api.bouncer.profile.AuthorizationServerProfileCondition
+import io.oauth.common.AuthorizationServerProfileCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Conditional
@@ -43,7 +43,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security
 				.tokenKeyAccess("permitAll()")
-				.checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+				.checkTokenAccess("permitAll()")
 	}
 
 	@Override

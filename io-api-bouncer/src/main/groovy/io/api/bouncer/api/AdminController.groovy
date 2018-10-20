@@ -1,8 +1,9 @@
 package io.api.bouncer.api
 
 import groovy.json.JsonOutput
-import io.api.bouncer.profile.ResourceServerProfileCondition
+
 import io.api.bouncer.valueobjects.BouncerRole
+import io.oauth.common.ResourceServerProfileCondition
 import org.springframework.context.annotation.Conditional
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication

@@ -1,7 +1,7 @@
 package io.api.bouncer.api
 
 import groovy.json.JsonOutput
-import io.api.bouncer.profile.ResourceServerProfileCondition
+import io.oauth.common.ResourceServerProfileCondition
 import org.springframework.context.annotation.Conditional
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping

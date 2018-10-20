@@ -1,4 +1,4 @@
-package io.api.bouncer.profile
+package io.oauth.common
 
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition

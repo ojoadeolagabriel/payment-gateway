@@ -1,15 +1,13 @@
-package io.api.bouncer.profile
-
+package io.oauth.common
 
 import org.springframework.core.env.Environment
 
-class ResourceServerProfileCondition extends ProfileCondition {
+class AuthorizationServerProfileCondition extends ProfileCondition {
 	@Override
 	protected boolean matchProfiles(Environment environment) {
 		Arrays.stream(environment.getActiveProfiles()).anyMatch(
 				{
-					profile -> (profile == "resource_server")
+					profile -> (profile == "authorization_server")
 				})
 	}
 }
-

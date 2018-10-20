@@ -1,7 +1,7 @@
 package io.api.bouncer.config
 
 import io.api.bouncer.filters.DemoAuthenticationFilter
-import io.api.bouncer.profile.AuthorizationServerProfileCondition
+import io.oauth.common.AuthorizationServerProfileCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
