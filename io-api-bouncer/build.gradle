@@ -12,8 +12,8 @@ buildscript {
 }
 
 plugins {
-    id 'groovy'
-    id 'java'
+	id 'groovy'
+	id 'java'
 	id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
@@ -31,7 +31,7 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenLocal()
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {

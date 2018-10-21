@@ -14,8 +14,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder
+import org.springframework.security.crypto.password.NoOpPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
+import org.springframework.security.crypto.password.StandardPasswordEncoder
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
+
+import java.util.regex.Pattern
 
 @Conditional(value = AuthorizationServerProfileCondition)
 @EnableWebSecurity
@@ -34,8 +41,16 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/v1/**").authenticated()
 	}
 
-	PasswordEncoder userPasswordEncoder() {
-		new BCryptPasswordEncoder(4)
+	PasswordEncoder passwordEncoder() {
+		String idForEncode = "bcrypt"
+		Map encoders = new HashMap<>()
+		encoders.put(idForEncode, new BCryptPasswordEncoder(10))
+		encoders.put("noop", NoOpPasswordEncoder.getInstance())
+		encoders.put("pbkdf2", new Pbkdf2PasswordEncoder())
+		encoders.put("scrypt", new SCryptPasswordEncoder())
+		encoders.put("sha256", new StandardPasswordEncoder())
+
+		return new DelegatingPasswordEncoder(idForEncode, encoders)
 	}
 
 	@Bean
@@ -52,5 +67,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
 		builder
 				.userDetailsService(userDetailsService)
+				.passwordEncoder(passwordEncoder())
 	}
 }

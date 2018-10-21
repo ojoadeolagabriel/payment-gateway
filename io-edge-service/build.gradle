@@ -35,13 +35,8 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-zuul')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	compile("org.springframework.boot:spring-boot-starter-security")
-
-	//spring assets
-	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
-
-	//projects
-	compile project(":io-oauth-common")
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
 
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
 	compile group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
