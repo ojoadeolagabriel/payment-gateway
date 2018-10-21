@@ -1,17 +1,24 @@
 buildscript {
+	ext {
+		springBootVersion = '2.0.5.RELEASE'
+	}
 	repositories {
+		mavenLocal()
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
 
 plugins {
     id 'groovy'
     id 'java'
+	id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
+apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -28,13 +35,18 @@ repositories {
 }
 
 dependencies {
+	//projects
 	compile project(":io-oauth-common")
+
+	//spring
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
 	compile("org.springframework.boot:spring-boot-starter-security")
-
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
 
+	//others
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
 	compile group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
 	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
@@ -45,4 +57,8 @@ dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-compileJava.dependsOn(processResources)
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.SR1"
+	}
+}

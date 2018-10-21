@@ -1,4 +1,4 @@
-package io.api.bouncer.config
+package io.edge.service.config
 
 import io.oauth.common.ResourceServerProfileCondition
 import org.springframework.beans.factory.annotation.Value
@@ -13,9 +13,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 
-//@Conditional(value = ResourceServerProfileCondition)
-//@Configuration
-//@EnableResourceServer
+@Conditional(value = ResourceServerProfileCondition)
+@Configuration
+@EnableResourceServer
 class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Value('${io.security.checkTokenEndpointUrl:http://localhost:7005/oauth/check_token/}')

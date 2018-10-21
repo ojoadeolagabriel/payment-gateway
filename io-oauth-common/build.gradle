@@ -3,13 +3,10 @@ buildscript {
 		mavenLocal()
 		mavenCentral()
 	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
-	}
 }
 
 plugins {
-    id 'groovy'
+	id 'groovy'
 }
 
 group 'com.synapse'
@@ -17,15 +14,24 @@ version '1.0-SNAPSHOT'
 
 repositories {
 	mavenLocal()
-    mavenCentral()
+	mavenCentral()
+}
+
+task buildProject (group: "Custom stuff", dependsOn: build){
+	println "current project version: " + project.version
+	if (project.version.toString().endsWith("-SNAPSHOT")) {
+		println "project is a snapshot"
+	} else {
+		println "project is not a snapshot"
+	}
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.4.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.4.RELEASE'
-    compile("org.springframework.boot:spring-boot-starter-security:1.5.4.RELEASE")
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.17.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.17.RELEASE'
+	compile("org.springframework.boot:spring-boot-starter-security:1.5.17.RELEASE")
+	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
 
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+	compile 'org.codehaus.groovy:groovy-all:2.3.11'
+	testCompile group: 'junit', name: 'junit', version: '4.12'
 }

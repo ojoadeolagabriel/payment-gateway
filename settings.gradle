@@ -7,4 +7,5 @@ include 'io-config-server'
 include 'io-api-bouncer'
 include 'io-edge-service'
 include 'io-oauth-common'
+include 'io-configuration-server'
 

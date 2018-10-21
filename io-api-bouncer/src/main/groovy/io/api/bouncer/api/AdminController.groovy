@@ -27,8 +27,6 @@ class AdminController {
 	@PreAuthorize(BouncerRole.SUPER_ADMIN)
 	@RequestMapping(method = RequestMethod.GET, value = "/user/current", produces = "application/json")
 	String currentUser() {
-		def map = [:]
-		map."user-${1}" = 1
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
 		JsonOutput.toJson(["username": authentication.name, "principal": authentication.credentials.toString()])
 	}
