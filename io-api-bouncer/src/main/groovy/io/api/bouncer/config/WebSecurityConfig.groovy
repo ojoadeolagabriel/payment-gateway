@@ -22,8 +22,6 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 
-import java.util.regex.Pattern
-
 @Conditional(value = AuthorizationServerProfileCondition)
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

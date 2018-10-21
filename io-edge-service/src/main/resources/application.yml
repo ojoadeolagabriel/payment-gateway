@@ -1,7 +1,3 @@
-spring:
-  profiles:
-    active: production
-
 server:
   port: 7010
   context-path: /io-gateway
