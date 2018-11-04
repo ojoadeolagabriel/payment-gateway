@@ -1,7 +1,7 @@
 package io.utils;
 
-import io.utils.validators.FluentValidator;
-import io.utils.validators.TestObject;
+import io.utils.validators.fluent.FluentValidator;
+import io.utils.validators.fluent.TestObject;
 import io.utils.validators.contract.ResultContext;
 import io.utils.validators.contract.ValidationResult;
 
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import static java.lang.System.out;
 
-public class App2 {
-	public static void main(String[] args) {
+public class FluentJavaTest {
+	void test(){
 		FluentValidator<TestObject> validator = new FluentValidator<>();
 		ResultContext resultContext = validator.checkAll(new TestObject())
 				.on(c -> {

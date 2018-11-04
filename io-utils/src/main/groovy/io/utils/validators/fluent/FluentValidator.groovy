@@ -1,4 +1,4 @@
-package io.utils.validators
+package io.utils.validators.fluent
 
 import io.utils.validators.contract.FluentHandler
 import io.utils.validators.contract.ResultContext

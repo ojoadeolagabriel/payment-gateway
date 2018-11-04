@@ -1,7 +1,7 @@
 package io.utils
 
-import io.utils.validators.FluentValidator
-import io.utils.validators.TestObject
+import io.utils.validators.fluent.FluentValidator
+import io.utils.validators.fluent.TestObject
 import io.utils.validators.contract.ValidationResult
 
 import java.util.stream.Collector
@@ -11,8 +11,8 @@ import static io.utils.validators.contract.ValidationResult.State.FAILED
 import static io.utils.validators.contract.ValidationResult.State.SUCCESS
 import static java.lang.System.out
 
-class App {
-	static void main(String[] args) {
+class FluentGroovyTest {
+	def test(){
 		def validator = new FluentValidator<TestObject>()
 		def resultContext = validator
 				.checkAll(new TestObject())
@@ -42,6 +42,5 @@ class App {
 					.stream()
 					.map({ c -> c.errorMessage }).collect(Collectors.joining(", ") as Collector<? super String, ?, String>)
 		}
-
 	}
 }

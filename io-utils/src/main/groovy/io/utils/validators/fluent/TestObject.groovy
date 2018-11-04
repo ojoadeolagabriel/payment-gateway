@@ -1,4 +1,4 @@
-package io.utils.validators
+package io.utils.validators.fluent
 
 class TestObject {
 	String firstname
