@@ -33,8 +33,9 @@ class SimpleFilter extends ZuulFilter {
 	Object run() {
 		RequestContext ctx = RequestContext.getCurrentContext()
 		HttpServletRequest request = ctx.getRequest()
-		println "[xxxx-routing]: ${message}"
-
+		for (def item : request.headerNames) {
+			System.out.println("${item} was found in header!")
+		}
 		System.out.println(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()))
 		return null
 	}

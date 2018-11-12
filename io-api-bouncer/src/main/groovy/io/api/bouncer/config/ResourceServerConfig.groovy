@@ -12,6 +12,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 
 @Conditional(value = ResourceServerProfileCondition)
 @Configuration
@@ -22,12 +25,13 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	String checkTokenUrl
 
 	private static final String RESOURCE_ID = "myResource",
-			clientId = "webpay",
-			secret = "password"
+	                            clientId = "webpay",
+	                            secret = "password"
 
 	@Override
 	void configure(HttpSecurity http) throws Exception {
 		http
+		.cors().and()
 				.authorizeRequests()
 				.anyRequest().authenticated()
 				.and()
@@ -37,6 +41,19 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 		resources.tokenServices(tokenService()).resourceId(RESOURCE_ID).stateless(true)
+	}
+
+	@Bean
+	CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration()
+		config.setAllowCredentials(true)
+		config.addAllowedOrigin("http://localhost:8901")
+		config.addAllowedHeader("*")
+		config.addAllowedMethod("GET")
+		config.addAllowedMethod("PUT")
+		source.registerCorsConfiguration("/**", config)
+		return new CorsFilter(source)
 	}
 
 	@Primary

@@ -1,0 +1,4 @@
+server:
+  port: 7888
+  servlet:
+    context-path: /paymentgateway

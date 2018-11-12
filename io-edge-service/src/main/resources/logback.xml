@@ -4,12 +4,12 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} app_name=[%X{app_name}] - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
             </Pattern>
         </layout>
     </appender>
 
-    <logger name="io.api.bouncer.App" level="debug" additivity="false">
+    <logger name="io.edge.service.App" level="debug" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

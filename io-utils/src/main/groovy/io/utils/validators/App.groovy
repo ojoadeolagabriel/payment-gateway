@@ -1,36 +1,21 @@
 package io.utils.validators
 
+import groovy.transform.builder.Builder
+
 class App {
-
-	static void process(String m){
-
-	}
 	static void main(String[] args) {
-		Person p = new Person()
-		String[] items = Collections.emptyList()
+		List<Person> list = [
+		        Person.builder().age(100).build(),
+		        Person.builder().age(200).build(),
+		        Person.builder().age(300).build(),
+		]
 
-		Person.metaClass.constructor << {
-			String par ->
-				Person de = new Person()
-				de.metaClass.par = "dex"
-		}
-
-		Person dd = new Person("ddd")
-
-		use(PersonCategory) {
-			p.employPerson("")
-		}
+		List<Person> list2 = null
+		println list2?.age?.join(",")
 	}
 }
 
-class PersonCategory {
-	static void employPerson(Person person, String state) {
-		person.metaClass.@"stateOfStaff" = state
-	}
-}
-
+@Builder
 class Person {
-	void sackPerson() {
-
-	}
+	int age
 }
